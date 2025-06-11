@@ -65,7 +65,7 @@ private[feature] class NHotWeightedEncoder(name: String, encodeMissingValue: Boo
   import MissingValue.MissingValueToken
 
   def addMissingValue(
-    fb: FeatureBuilder[_],
+    fb: FeatureBuilder[?],
     unseen: MSet[String],
     keys: Seq[String],
     unseenWeight: Double
@@ -83,7 +83,7 @@ private[feature] class NHotWeightedEncoder(name: String, encodeMissingValue: Boo
   override def buildFeatures(
     a: Option[Seq[WeightedLabel]],
     c: SortedMap[String, Int],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit = a match {
     case Some(xs) =>
       val weights = MMap.empty[String, Double].withDefaultValue(0.0)

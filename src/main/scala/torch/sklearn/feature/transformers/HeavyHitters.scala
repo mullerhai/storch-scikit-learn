@@ -102,7 +102,7 @@ private[feature] class HeavyHitters(
   override def buildFeatures(
     a: Option[String],
     c: Map[String, (Int, Long)],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit = a match {
     case Some(x) =>
       c.get(x) match {

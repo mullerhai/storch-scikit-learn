@@ -40,8 +40,8 @@ import scala.annotation.implicitNotFound
 }
 
 object CollectionType {
-  implicit def scalaCollectionType[M[_] <: Iterable[_]](implicit
-    cb: CanBuild[_, M]
+  implicit def scalaCollectionType[M[_] <: Iterable[?]](implicit
+    cb: CanBuild[?, M]
   ): CollectionType[M] =
     new CollectionType[M] {
       override def map[A, B: ClassTag](ma: M[A])(f: A => B): M[B] = {

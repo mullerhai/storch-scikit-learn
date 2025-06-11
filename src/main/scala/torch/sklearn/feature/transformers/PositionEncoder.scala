@@ -53,7 +53,7 @@ private[feature] class PositionEncoder(name: String) extends BaseHotEncoder[Stri
   override def buildFeatures(
     a: Option[String],
     c: SortedMap[String, Int],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit =
     a match {
       case Some(k) =>

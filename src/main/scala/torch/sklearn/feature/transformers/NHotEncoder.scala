@@ -57,7 +57,7 @@ private[feature] class NHotEncoder(name: String, encodeMissingValue: Boolean)
     extends BaseHotEncoder[Seq[String]](name, encodeMissingValue) {
   import MissingValue.MissingValueToken
 
-  def addMissingValue(fb: FeatureBuilder[_], unseen: MSet[String], keys: Seq[String]): Unit =
+  def addMissingValue(fb: FeatureBuilder[?], unseen: MSet[String], keys: Seq[String]): Unit =
     if (
       unseen.isEmpty
       && keys.nonEmpty
@@ -71,7 +71,7 @@ private[feature] class NHotEncoder(name: String, encodeMissingValue: Boolean)
   override def buildFeatures(
     a: Option[Seq[String]],
     c: SortedMap[String, Int],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit = a match {
     case Some(xs) =>
       val keys = xs.distinct.sorted

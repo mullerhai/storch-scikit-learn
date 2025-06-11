@@ -14,7 +14,7 @@ import scala.collection.Seq
 ////    csrCacheDirectory := file("D:\\coursier"),
 //  )
 
-ThisBuild / tlBaseVersion := "0.0" // your current series x.y
+ThisBuild / tlBaseVersion := "0.1.0" // your current series x.y
 //ThisBuild / CoursierCache := file("D:\\coursier")
 ThisBuild / organization := "io.github.mullerhai" //"dev.storch"
 ThisBuild / organizationName := "storch.dev"
@@ -50,10 +50,6 @@ releaseProcess := Seq[ReleaseStep](
 )
 
 
-ThisBuild / version := "0.1.0"
-
-ThisBuild / scalaVersion := "3.6.4"
-
 lazy val root = (project in file("."))
   .settings(
     name :=  "storch-scikit-learn"
@@ -67,7 +63,7 @@ ThisBuild / tlSonatypeUseLegacyHost := false
 // publish website from this branch
 ThisBuild / tlSitePublishBranch := Some("main")
 ThisBuild / homepage := Some(new URL("https://storch.dev/api/"))
-ThisBuild / scmInfo := Some( ScmInfo( url( "https://github.com/mullerhai/storch-deepseek-v3" ), "scm:git:https://github.com/mullerhai/storch-deepseek-v3.git" ) )
+ThisBuild / scmInfo := Some( ScmInfo( url( "https://github.com/mullerhai/storch-scikit-learn" ), "scm:git:https://github.com/mullerhai/storch-scikit-learn.git" ) )
 //ThisBuild / scmInfo := Some(new ScmInfo("https://github.com/mullerhai/storch-k8s.git"))
 //val scrImageVersion = "4.3.0" //4.0.34
 //libraryDependencies +=   "dev.storch" % "core_3" % "0.2.6-1.15.1"

@@ -65,7 +65,7 @@ object FeatureSpec extends FeatureSpecCompat {
  *   input record type to extract features from
  */
 class FeatureSpec[T] private[feature](
-                                       private[feature] val features: Array[Feature[T, _, _, _]],
+                                       private[feature] val features: Array[Feature[T, ?, ?, ?]],
                                        private[feature] val crossings: Crossings
 ) {
   private def featureSet: FeatureSet[T] = new FeatureSet[T](features, crossings)
@@ -79,7 +79,7 @@ class FeatureSpec[T] private[feature](
    * @tparam A
    *   extracted feature type
    */
-  def required[A](f: T => A)(t: Transformer[A, _, _]): FeatureSpec[T] =
+  def required[A](f: T => A)(t: Transformer[A, ?, ?]): FeatureSpec[T] =
     optional(t => Some(f(t)))(t)
 
   /**
@@ -94,7 +94,7 @@ class FeatureSpec[T] private[feature](
    *   extracted feature type
    */
   def optional[A](f: T => Option[A], default: Option[A] = None)(
-    t: Transformer[A, _, _]
+    t: Transformer[A, ?, ?]
   ): FeatureSpec[T] =
     new FeatureSpec[T](this.features :+ new Feature(f, default, t), this.crossings)
 
@@ -125,7 +125,7 @@ class FeatureSpec[T] private[feature](
    */
   def compose[S](spec: FeatureSpec[S])(f: T => S): FeatureSpec[T] = {
     val composedFeatures = spec.features.map { feature =>
-      val t = feature.transformer.asInstanceOf[Transformer[Any, _, _]]
+      val t = feature.transformer.asInstanceOf[Transformer[Any, ?, ?]]
       new Feature(f.andThen(feature.f), feature.default, t)
     }
     new FeatureSpec[T](this.features ++ composedFeatures, this.crossings ++ spec.crossings)
@@ -154,10 +154,10 @@ class FeatureSpec[T] private[feature](
    * @param predicate
    *   Function determining whether or not to include the feature
    */
-  def filter(predicate: Feature[T, _, _, _] => Boolean): FeatureSpec[T] = {
+  def filter(predicate: Feature[T, ?, ?, ?] => Boolean): FeatureSpec[T] = {
     val filteredFeatures = features.filter(predicate)
     val featuresByName = {
-      val b = Map.newBuilder[String, Feature[T, _, _, _]]
+      val b = Map.newBuilder[String, Feature[T, ?, ?, ?]]
       b ++= filteredFeatures.iterator.map(f => f.transformer.name -> f)
       b.result()
     }
@@ -187,7 +187,7 @@ class FeatureSpec[T] private[feature](
 
     val featureSet = settings.map { s =>
       val settingsJson = decode[Seq[Settings]](s).toOption.get
-      val predicate: Feature[T, _, _, _] => Boolean =
+      val predicate: Feature[T, ?, ?, ?] => Boolean =
         f => settingsJson.exists(x => x.name == f.transformer.name)
 
       filter(predicate).featureSet
@@ -234,7 +234,7 @@ class FeatureSpec[T] private[feature](
     import json._
 
     val s = decode[Seq[Settings]](settings).toOption.get
-    val predicate: Feature[T, _, _, _] => Boolean = f => s.exists(x => x.name == f.transformer.name)
+    val predicate: Feature[T, ?, ?, ?] => Boolean = f => s.exists(x => x.name == f.transformer.name)
 
     new RecordExtractor[T, F](filter(predicate).featureSet, settings)
   }
@@ -287,7 +287,7 @@ class Feature[T, A, B, C] private[feature](
     transformer.optFeatureNames(c.asInstanceOf[Option[C]])
 
   // (Option[A], Option[C], FeatureBuilder[F])
-  def unsafeBuildFeatures(a: Option[Any], c: Option[Any], fb: FeatureBuilder[_]): Unit =
+  def unsafeBuildFeatures(a: Option[Any], c: Option[Any], fb: FeatureBuilder[?]): Unit =
     transformer.optBuildFeatures(a.asInstanceOf[Option[A]], c.asInstanceOf[Option[C]], fb)
 
   // Option[C]
@@ -296,7 +296,7 @@ class Feature[T, A, B, C] private[feature](
 }
 
 private class FeatureSet[T](
-                             private[feature] val features: Array[Feature[T, _, _, _]],
+                             private[feature] val features: Array[Feature[T, ?, ?, ?]],
                              private[feature] val crossings: Crossings
 ) extends Serializable {
   {
@@ -440,7 +440,7 @@ private class FeatureSet[T](
 }
 
 private class MultiFeatureSet[T](
-  features: Array[Feature[T, _, _, _]],
+  features: Array[Feature[T, ?, ?, ?]],
   crossings: Crossings,
   private val mapping: Map[String, Int]
 ) extends FeatureSet[T](features, crossings)

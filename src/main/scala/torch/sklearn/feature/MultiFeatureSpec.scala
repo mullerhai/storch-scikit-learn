@@ -37,7 +37,7 @@ object MultiFeatureSpec {
 /** Wrapper for [[FeatureSpec]] that allows for combination and separation of different specs. */
 class MultiFeatureSpec[T](
                            private[feature] val mapping: Map[String, Int],
-                           private[feature] val features: Array[Feature[T, _, _, _]],
+                           private[feature] val features: Array[Feature[T, ?, ?, ?]],
                            private[feature] val crossings: Crossings
 ) {
   private def multiFeatureSet: MultiFeatureSet[T] =
@@ -67,10 +67,10 @@ class MultiFeatureSpec[T](
    * @param predicate
    *   Function determining whether or not to include the feature
    */
-  def filter(predicate: Feature[T, _, _, _] => Boolean): MultiFeatureSpec[T] = {
+  def filter(predicate: Feature[T, ?, ?, ?] => Boolean): MultiFeatureSpec[T] = {
     val filteredFeatures = features.filter(predicate)
     val featuresByName = {
-      val b = Map.newBuilder[String, Feature[T, _, _, _]]
+      val b = Map.newBuilder[String, Feature[T, ?, ?, ?]]
       b ++= filteredFeatures.iterator.map(f => f.transformer.name -> f)
       b.result()
     }
@@ -124,7 +124,7 @@ class MultiFeatureSpec[T](
 
     val featureSet = settings.map { s =>
       val settingsJson = decode[Seq[Settings]](s).toOption.get
-      val predicate: Feature[T, _, _, _] => Boolean =
+      val predicate: Feature[T, ?, ?, ?] => Boolean =
         f => settingsJson.exists(x => x.name == f.transformer.name)
 
       filter(predicate).multiFeatureSet

@@ -89,7 +89,7 @@ private[feature] class HashNHotWeightedEncoder(
   override def prepare(a: Seq[WeightedLabel]): HLL =
     a.map(_.name).map(hllMonoid.toHLL(_)).fold(hllMonoid.zero)(hllMonoid.plus)
 
-  override def buildFeatures(a: Option[Seq[WeightedLabel]], c: Int, fb: FeatureBuilder[_]): Unit =
+  override def buildFeatures(a: Option[Seq[WeightedLabel]], c: Int, fb: FeatureBuilder[?]): Unit =
     a match {
       case Some(xs) =>
         val weights =

@@ -114,7 +114,7 @@ private[feature] class TopNOneHotEncoder(
     if (encodeMissingValue) names :+ (name + '_' + MissingValueToken) else names
   }
 
-  def addNonTopItem(c: SortedMap[String, Int], fb: FeatureBuilder[_]): Unit = {
+  def addNonTopItem(c: SortedMap[String, Int], fb: FeatureBuilder[?]): Unit = {
     fb.skip(c.size)
     if (encodeMissingValue) {
       fb.add(name + '_' + MissingValueToken, 1.0)
@@ -124,7 +124,7 @@ private[feature] class TopNOneHotEncoder(
   override def buildFeatures(
     a: Option[String],
     c: SortedMap[String, Int],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit = a match {
     case Some(k) =>
       c.get(k) match {

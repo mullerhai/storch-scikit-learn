@@ -75,7 +75,7 @@ private[feature] class NGrams(name: String, val low: Int, val high: Int, val sep
   override def buildFeatures(
     a: Option[Seq[String]],
     c: SortedMap[String, Int],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit =
     super.buildFeatures(a.map(ngrams), c, fb)
 

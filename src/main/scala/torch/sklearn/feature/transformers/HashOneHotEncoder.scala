@@ -88,7 +88,7 @@ private[feature] class HashOneHotEncoder(
 ) extends BaseHashHotEncoder[String](name, hashBucketSize, sizeScalingFactor) {
   override def prepare(a: String): HLL = hllMonoid.toHLL(a)
 
-  override def buildFeatures(a: Option[String], c: Int, fb: FeatureBuilder[_]): Unit =
+  override def buildFeatures(a: Option[String], c: Int, fb: FeatureBuilder[?]): Unit =
     a match {
       case Some(x) =>
         val i = HashEncoder.bucket(x, c)

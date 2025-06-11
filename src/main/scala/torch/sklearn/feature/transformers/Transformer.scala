@@ -23,7 +23,7 @@ import com.twitter.algebird.{Aggregator, Semigroup}
 import scala.annotation.nowarn
 
 trait SettingsBuilder {
-  def fromSettings(settings: Settings): Transformer[_, _, _]
+  def fromSettings(settings: Settings): Transformer[?, ?, ?]
 }
 
 // TODO: port more transformers from Spark
@@ -68,7 +68,7 @@ abstract class Transformer[-A, B, C](val name: String) extends Serializable { se
    * @param fb
    *   feature builder
    */
-  def buildFeatures(a: Option[A], c: C, fb: FeatureBuilder[_]): Unit
+  def buildFeatures(a: Option[A], c: C, fb: FeatureBuilder[?]): Unit
 
   protected def nameAt(n: Int): String = name + '_' + n
 
@@ -86,7 +86,7 @@ abstract class Transformer[-A, B, C](val name: String) extends Serializable { se
       override def semigroup = self.aggregator.semigroup
       override def present(b: B): C = self.aggregator.present(b)
     }
-    override def buildFeatures(a: Option[AA], c: C, fb: FeatureBuilder[_]): Unit =
+    override def buildFeatures(a: Option[AA], c: C, fb: FeatureBuilder[?]): Unit =
       self.buildFeatures(a.map(f), c, fb)
     override def decodeAggregator(s: String): C = self.decodeAggregator(s)
     override def encodeAggregator(c: C): String = self.encodeAggregator(c)
@@ -112,12 +112,12 @@ abstract class Transformer[-A, B, C](val name: String) extends Serializable { se
     case None    => Seq(name)
   }
 
-  def optBuildFeatures(a: Option[A], c: Option[C], fb: FeatureBuilder[_]): Unit = c match {
+  def optBuildFeatures(a: Option[A], c: Option[C], fb: FeatureBuilder[?]): Unit = c match {
     case Some(x) => buildFeatures(a, x, fb)
     case None    => fb.skip()
   }
 
-  def unsafeBuildFeatures(a: Option[Any], c: Option[Any], fb: FeatureBuilder[_]): Unit =
+  def unsafeBuildFeatures(a: Option[Any], c: Option[Any], fb: FeatureBuilder[?]): Unit =
     optBuildFeatures(a.asInstanceOf[Option[A]], c.asInstanceOf[Option[C]], fb)
 
   def unsafeFeatureDimension(c: Option[Any]): Int =
@@ -175,7 +175,7 @@ abstract private[feature] class OneDimensional[A, B, C](name: String)
 abstract private[feature] class MapOne[A](name: String)
     extends OneDimensional[A, Unit, Unit](name) {
   override val aggregator: Aggregator[A, Unit, Unit] = Aggregators.unit[A]
-  override def buildFeatures(a: Option[A], c: Unit, fb: FeatureBuilder[_]): Unit = a match {
+  override def buildFeatures(a: Option[A], c: Unit, fb: FeatureBuilder[?]): Unit = a match {
     case Some(x) => fb.add(name, map(x))
     case None    => fb.add(name, 0.0)
   }

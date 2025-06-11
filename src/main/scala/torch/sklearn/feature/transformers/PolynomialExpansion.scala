@@ -112,7 +112,7 @@ private[feature] class PolynomialExpansion(name: String, val degree: Int, val ex
   override def featureDimension(c: Int): Int =
     PolynomialExpansion.getPolySize(c, degree) - 1
   override def featureNames(c: Int): Seq[String] = names(featureDimension(c))
-  override def buildFeatures(a: Option[Array[Double]], c: Int, fb: FeatureBuilder[_]): Unit =
+  override def buildFeatures(a: Option[Array[Double]], c: Int, fb: FeatureBuilder[?]): Unit =
     a match {
       case Some(x) =>
         if (x.length != c) {

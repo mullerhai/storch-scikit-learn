@@ -48,7 +48,7 @@ private[feature] class MaxAbsScaler(name: String)
     extends OneDimensional[Double, Max[Double], Double](name) {
   override val aggregator: Aggregator[Double, Max[Double], Double] =
     Aggregators.from[Double](x => Max(math.abs(x))).to(_.get)
-  override def buildFeatures(a: Option[Double], c: Double, fb: FeatureBuilder[_]): Unit = a match {
+  override def buildFeatures(a: Option[Double], c: Double, fb: FeatureBuilder[?]): Unit = a match {
     case Some(x) =>
       // truncate x to [-max, max]
       val truncated = math.min(math.abs(x), c) * math.signum(x)

@@ -127,9 +127,9 @@ object FlatExtractor {
   )
   def flatSpec[T: ClassTag: FlatReader, X: ClassTag](spec: FeatureSpec[X]): FeatureSpec[T] = {
     val features = spec.features.map { feature =>
-      val t = feature.transformer.asInstanceOf[Transformer[Any, _, _]]
+      val t = feature.transformer.asInstanceOf[Transformer[Any, ?, ?]]
       new Feature(feature.transformer.flatRead, feature.default, t)
-        .asInstanceOf[Feature[T, _, _, _]]
+        .asInstanceOf[Feature[T, ?, ?, ?]]
     }
     new FeatureSpec[T](features, spec.crossings)
   }
@@ -154,9 +154,9 @@ object FlatExtractor {
     spec: MultiFeatureSpec[X]
   ): MultiFeatureSpec[T] = {
     val features = spec.features.map { feature =>
-      val t = feature.transformer.asInstanceOf[Transformer[Any, _, _]]
+      val t = feature.transformer.asInstanceOf[Transformer[Any, ?, ?]]
       new Feature(feature.transformer.flatRead, feature.default, t)
-        .asInstanceOf[Feature[T, _, _, _]]
+        .asInstanceOf[Feature[T, ?, ?, ?]]
     }
     new MultiFeatureSpec[T](spec.mapping, features, spec.crossings)
   }

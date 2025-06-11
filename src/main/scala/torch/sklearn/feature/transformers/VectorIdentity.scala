@@ -60,7 +60,7 @@ private[feature] class VectorIdentity[M[_]](name: String, val expectedLength: In
     Aggregators.seqLength(expectedLength)
   override def featureDimension(c: Int): Int = c
   override def featureNames(c: Int): Seq[String] = names(c)
-  override def buildFeatures(a: Option[M[Double]], c: Int, fb: FeatureBuilder[_]): Unit = a match {
+  override def buildFeatures(a: Option[M[Double]], c: Int, fb: FeatureBuilder[?]): Unit = a match {
     case Some(x) =>
       val length = ev(x).length
       if (length != c) {

@@ -76,7 +76,7 @@ private class CrossingFeatureBuilder[F] private (
   private[this] val xValues = mutable.Map.empty[String, mutable.Queue[CrossValue]]
   private[this] val xDims = mutable.Map.empty[String, Int]
 
-  override def prepare(transformer: Transformer[_, _, _]): Unit = {
+  override def prepare(transformer: Transformer[?, ?, ?]): Unit = {
     updateDim()
     val name = transformer.name
     if (crossings.keys.contains(name)) {
@@ -148,7 +148,7 @@ private class CrossingFeatureBuilder[F] private (
     fb.result
   }
 
-  override def reject(transformer: Transformer[_, _, _], reason: FeatureRejection): Unit =
+  override def reject(transformer: Transformer[?, ?, ?], reason: FeatureRejection): Unit =
     fb.reject(transformer, reason)
   override def rejections: Map[String, FeatureRejection] = fb.rejections
 

@@ -82,7 +82,7 @@ private class QuantileOutlierRejector(
   protected def calculateBounds(fq: Double, lq: Double): (Double, Double) =
     (fq, lq)
 
-  override def buildFeatures(a: Option[Double], c: C, fb: FeatureBuilder[_]): Unit = {
+  override def buildFeatures(a: Option[Double], c: C, fb: FeatureBuilder[?]): Unit = {
     // we always skip since we don't care about the actual value, just the rejections
     fb.skip()
     a.foreach { x =>

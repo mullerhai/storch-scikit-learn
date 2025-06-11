@@ -61,7 +61,7 @@ private[feature] class OneHotEncoder(name: String, encodeMissingValue: Boolean)
   override def buildFeatures(
     a: Option[String],
     c: SortedMap[String, Int],
-    fb: FeatureBuilder[_]
+    fb: FeatureBuilder[?]
   ): Unit =
     a match {
       case Some(k) =>
@@ -94,7 +94,7 @@ abstract private[feature] class BaseHotEncoder[A](name: String, encodeMissingVal
 
   def prepare(a: A): Set[String]
 
-  def addMissingItem(c: SortedMap[String, Int], fb: FeatureBuilder[_]): Unit = {
+  def addMissingItem(c: SortedMap[String, Int], fb: FeatureBuilder[?]): Unit = {
     fb.skip(c.size)
     if (encodeMissingValue) {
       fb.add(name + '_' + MissingValueToken, 1.0)

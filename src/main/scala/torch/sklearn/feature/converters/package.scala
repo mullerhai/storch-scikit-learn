@@ -25,6 +25,6 @@ package object converters {
   }
 
   implicit val identityDefault: DefaultTransform[Double] = new DefaultTransform[Double] {
-    final def apply(featureName: String): Transformer[Double, _, _] = Identity(featureName)
+    final def apply(featureName: String): Transformer[Double, ?, ?] = Identity(featureName)
   }
 }

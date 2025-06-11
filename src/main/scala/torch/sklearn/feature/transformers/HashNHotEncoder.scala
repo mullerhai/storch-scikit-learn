@@ -85,7 +85,7 @@ private[feature] class HashNHotEncoder(name: String, hashBucketSize: Int, sizeSc
   override def prepare(a: Seq[String]): HLL =
     a.map(hllMonoid.toHLL(_)).fold(hllMonoid.zero)(hllMonoid.plus)
 
-  override def buildFeatures(a: Option[Seq[String]], c: Int, fb: FeatureBuilder[_]): Unit =
+  override def buildFeatures(a: Option[Seq[String]], c: Int, fb: FeatureBuilder[?]): Unit =
     a match {
       case Some(xs) =>
         var prev = -1

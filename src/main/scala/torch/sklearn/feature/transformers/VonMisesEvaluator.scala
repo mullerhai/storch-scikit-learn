@@ -86,7 +86,7 @@ private[feature] class VonMisesEvaluator(
   override def featureDimension(c: Unit): Int = points.length
   override def featureNames(c: Unit): Seq[String] = names(points.length)
 
-  override def buildFeatures(a: Option[Double], c: Unit, fb: FeatureBuilder[_]): Unit = a match {
+  override def buildFeatures(a: Option[Double], c: Unit, fb: FeatureBuilder[?]): Unit = a match {
     case Some(mu) =>
       checkRange("mu", mu, 0.0, upperBound)
       val probs = points.map(VonMisesEvaluator.getProbability(_, mu, kappa, scale))

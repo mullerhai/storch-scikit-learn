@@ -53,7 +53,7 @@ object FeatureRejection {
    * @param reason
    *   reason for rejection
    */
-  def reject(transformer: Transformer[_, _, _], reason: FeatureRejection): Unit = {
+  def reject(transformer: Transformer[?, ?, ?], reason: FeatureRejection): Unit = {
     val name = transformer.name
     require(!_rejections.contains(name), s"Transformer $name already rejected")
     _rejections(name) = reason
@@ -82,7 +82,7 @@ object FeatureRejection {
    * @param transformer
    *   the next transformer in line
    */
-  def prepare(transformer: Transformer[_, _, _]): Unit = ()
+  def prepare(transformer: Transformer[?, ?, ?]): Unit = ()
 
   /** Gather builder result for a result. This should be called only once per input row. */
   def result: T

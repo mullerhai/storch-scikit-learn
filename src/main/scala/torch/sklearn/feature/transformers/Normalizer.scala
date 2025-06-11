@@ -67,7 +67,7 @@ private[feature] class Normalizer(name: String, val p: Double, val expectedLengt
     Aggregators.seqLength[Double, Array](expectedLength)(ArraySeq.unsafeWrapArray)
   override def featureDimension(c: Int): Int = c
   override def featureNames(c: Int): Seq[String] = names(c)
-  override def buildFeatures(a: Option[Array[Double]], c: Int, fb: FeatureBuilder[_]): Unit =
+  override def buildFeatures(a: Option[Array[Double]], c: Int, fb: FeatureBuilder[?]): Unit =
     a match {
       case Some(x) =>
         if (x.length != c) {

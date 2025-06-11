@@ -24,7 +24,7 @@ import scala.annotation.implicitNotFound
 /** Default Type Class used by the from generator for Case Class Conversions */
 @implicitNotFound("Could not find an instance of DefaultTransform for ${T}")
 @typeclass trait DefaultTransform[T] extends Serializable {
-  def apply(featureName: String): Transformer[T, _, _]
+  def apply(featureName: String): Transformer[T, ?, ?]
 }
 
 object DefaultTransform {

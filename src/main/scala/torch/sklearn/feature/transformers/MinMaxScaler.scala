@@ -71,7 +71,7 @@ private[feature] class MinMaxScaler(name: String, val min: Double, val max: Doub
       (aMin / f, aMax / f, f)
     }
 
-  override def buildFeatures(a: Option[Double], c: C, fb: FeatureBuilder[_]): Unit = a match {
+  override def buildFeatures(a: Option[Double], c: C, fb: FeatureBuilder[?]): Unit = a match {
     case Some(x) =>
       val (aMin, aMax, f) = c
       val truncated = math.max(math.min(x / f, aMax), aMin)

@@ -59,7 +59,7 @@ private[feature] class StandardScaler(name: String, val withStd: Boolean, val wi
     extends OneDimensional[Double, Moments, (Double, Double)](name) {
   override val aggregator: Aggregator[Double, Moments, (Double, Double)] =
     Aggregators.from[Double](Moments(_)).to(r => (r.mean, r.stddev))
-  override def buildFeatures(a: Option[Double], c: (Double, Double), fb: FeatureBuilder[_]): Unit =
+  override def buildFeatures(a: Option[Double], c: (Double, Double), fb: FeatureBuilder[?]): Unit =
     a match {
       case Some(x) =>
         val r = (withStd, withMean) match {
