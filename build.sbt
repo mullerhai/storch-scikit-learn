@@ -14,7 +14,7 @@ import scala.collection.Seq
 ////    csrCacheDirectory := file("D:\\coursier"),
 //  )
 
-ThisBuild / tlBaseVersion := "0.1.0" // your current series x.y
+ThisBuild / tlBaseVersion := "0.1.1" // your current series x.y
 //ThisBuild / CoursierCache := file("D:\\coursier")
 ThisBuild / organization := "io.github.mullerhai" //"dev.storch"
 ThisBuild / organizationName := "storch.dev"
@@ -24,7 +24,7 @@ ThisBuild / developers := List(
   // your GitHub handle and name
   tlGitHubDev("mullerhai", "mullerhai")
 )
-ThisBuild / version := "0.1.0"
+ThisBuild / version := "0.1.1"
 
 ThisBuild / scalaVersion := "3.6.4"
 //
@@ -79,10 +79,20 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-collection-compat" % "
 // https://mvnrepository.com/artifact/org.typelevel/simulacrum-scalafix-annotations
 libraryDependencies += "org.typelevel" %% "simulacrum-scalafix-annotations" % "0.5.4"
 // https://mvnrepository.com/artifact/com.twitter/algebird-core
-libraryDependencies += ("com.twitter" %% "algebird-core" % "0.13.10").cross(CrossVersion.for3Use2_13) exclude("org.scala-lang.modules","scala-collection-compat_2.13") exclude("org.typelevel","algebra_2.13") exclude("org.typelevel","cats-kernel_2.13")
+libraryDependencies += ("com.twitter" %% "algebird-core" % "0.13.10").cross(CrossVersion.for3Use2_13) exclude("org.scala-lang.modules","scala-collection-compat_2.13") exclude("org.typelevel","algebra_2.13")exclude("org.typelevel","cats-kernel_2.13")
 //libraryDependencies += "io.circe" %% "circe-core" % circeVersion,
 //libraryDependencies += "io.circe" %% "circe-parser" % circeVersion
+// https://mvnrepository.com/artifact/org.scalacheck/scalacheck
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.18.1" % Test
+excludeDependencies += "org.typelevel"%"algebra_3"
+excludeDependencies += "org.typelevel"%"cats-kernel_3"
+//excludeDependencies += "org.typelevel"%"algebra"
+//excludeDependencies += "org.typelevel"%"cats-kernel"
+libraryDependencies += ("org.typelevel" % "cats-kernel" % "2.13.0").cross(CrossVersion.for3Use2_13)
+// https://mvnrepository.com/artifact/org.typelevel/algebra
+libraryDependencies += ("org.typelevel" % "algebra" % "2.13.0").cross(CrossVersion.for3Use2_13)
 
+//exclude("org.scala-lang.modules","scala-collection-compat_2.13")
 ThisBuild  / assemblyMergeStrategy := {
   case v if v.contains("module-info.class")   => MergeStrategy.discard
   case v if v.contains("UnusedStub")          => MergeStrategy.first
